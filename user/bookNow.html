@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Now</title>
+</head>
+<body onload="loadFlightDetails()">
+    <h1>Book Now</h1>
+
+    <div id="flightDetails">
+        <!-- Display flight details here -->
+    </div>
+
+    <form id="bookingForm">
+        <label for="passengerName">Passenger Name:</label>
+        <input type="text" id="passengerName" name="passengerName" required>
+
+        <label for="passengerEmail">Passenger Email:</label>
+        <input type="email" id="passengerEmail" name="passengerEmail" required>
+
+        <label for="seatCount">Seat Count:</label>
+        <input type="number" id="seatCount" name="seatCount" required>
+
+        <button type="button" onclick="confirmBooking()">Confirm Booking</button>
+    </form>
+
+    <script>
+        function loadFlightDetails() {
+            // Extract flight ID from the URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const flightId = urlParams.get('flightId');
+
+            // Fetch flight details using the flight ID
+            const url = `http://localhost:5000/getFlightDetails?flightId=${flightId}`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(flightDetails => {
+                    // Display flight details on the page
+                    console.log(flightDetails);
+                    const flightDetailsDiv = document.getElementById('flightDetails');
+                    flightDetailsDiv.innerHTML = `
+                    <h2>Flight Details</h2>
+                    <p>Name: ${flightDetails[0].flightName}</p>
+                    <p>Departure: ${flightDetails[0].departure}</p>
+                    <p>Destination: ${flightDetails[0].destination}</p>
+                    <p>Departure Time: ${new Date(flightDetails[0].departureTime).toLocaleString()}</p>
+                    <p>Arrival Time: ${new Date(flightDetails[0].arrivalTime).toLocaleString()}</p>
+                    <p>Price: ${flightDetails[0].price}</p>
+                    <p>Available Seats: ${flightDetails[0].seats}</p>
+                `;
+                })
+                .catch(error => console.error('Error fetching flight details:', error));
+        }
+
+        function confirmBooking() {
+            const passengerName = document.getElementById('passengerName').value;
+            const passengerEmail = document.getElementById('passengerEmail').value;
+            const urlParams = new URLSearchParams(window.location.search);
+            const flightId = urlParams.get('flightId');
+    const seatsToBook = document.getElementById('seatCount').value;
+
+    // Send the booking information and update seat count to the server
+    fetch(`http://localhost:5000/updateSeatCount/${flightId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ seatsToBook }),
+    })
+        .then((response) => response.json())
+        .then((updatedFlight) => {
+            // Display a success message
+            alert(`Booking confirmed!\nPassenger Name: ${passengerName}\nPassenger Email: ${passengerEmail}`);
+
+            // You can update the flight details on the page if needed
+            console.log('Updated Flight Details:', updatedFlight);
+        })
+        .catch((error) => console.error('Error confirming booking:', error));
+
+
+            // You can send the booking information to the server or perform other actions here
+
+            alert(`Booking confirmed!\nPassenger Name: ${passengerName}\nPassenger Email: ${passengerEmail}`);
+        }
+    </script>
+</body>
+</html>

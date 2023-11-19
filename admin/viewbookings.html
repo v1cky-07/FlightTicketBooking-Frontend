@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Information</title>
+</head>
+<body>
+
+<div id="flight-container">
+    <!-- Flight information will be displayed here -->
+</div>
+
+<script>
+window.onload = function() {
+    // Perform an HTTP request to your backend API
+    fetch('http://localhost:5000/getflights')
+        .then(response => response.json())
+        .then(data => {
+            // Once the data is received, update the frontend
+            displayFlights(data);
+        })
+        .catch(error => {
+            console.error('Error fetching flight data:', error);
+        });
+};
+
+function displayFlights(flights) {
+    const flightContainer = document.getElementById('flight-container');
+
+    // Clear existing content
+    flightContainer.innerHTML = '';
+
+    // Iterate over each flight and create HTML elements
+    flights.forEach(flight => {
+        const flightElement = document.createElement('div');
+        flightElement.innerHTML = `
+            <h3>Flight ${flight.flightId}</h3>
+            <p><strong>Flight Name:</strong> ${flight.flightName}</p>
+            <p><strong>Departure:</strong> ${flight.departure}</p>
+            <p><strong>Destination:</strong> ${flight.destination}</p>
+            <p><strong>Departure Time:</strong> ${flight.departureTime}</p>
+            <p><strong>Arrival Time:</strong> ${flight.arrivalTime}</p>
+            <p><strong>Price:</strong> $${flight.price}</p>
+            <p><strong>Available Seats:</strong> ${flight.seats}</p>
+            <hr>
+        `;
+        flightContainer.appendChild(flightElement);
+    });
+}
+</script>
+
+</body>
+</html>

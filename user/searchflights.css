@@ -1,0 +1,68 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    text-align: center;
+    margin: 20px 0;
+}
+
+label {
+    margin-right: 10px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+#searchResults {
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.search-result {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.book-now-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.book-now-btn:hover {
+    background-color: #2980b9;
+}
+
+/* Additional styling for the booking page */
+#bookingDetails {
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
